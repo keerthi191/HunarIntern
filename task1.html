@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>E Y S N Keerthi - Personal Homepage</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    .container {
+      max-width: 2000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .page {
+      display: none;
+      min-height: 70vh;
+      padding: 40px 20px;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.6); /* semi-transparent overlay */
+      backdrop-filter: saturate(180%) blur(3px);
+      border-radius: 8px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .page.active {
+      display: block;
+    }
+     
+
+    
+  .page::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px);
+    opacity: 0.6;
+  }
+
+  #page1::before {
+    background-image: url('background.jpg');
+  }
+
+  #page2::before {
+    background-image: url('background.jpg');
+  }
+
+  #page3::before {
+    background-image: url('background.jpg');
+  }
+
+  .page {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: saturate(180%) blur(3px);
+    border-radius: 8px;
+  }
+
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    h2, h3 {
+      color: #2c3e50;
+      text-align: left;
+    }
+
+    .welcome {
+      font-size: 1.5rem;
+      margin: 20px 0;
+      font-style: italic;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    img.profile {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    .highlight-name {
+      display: inline-block;
+      background: linear-gradient(90deg, #ff9800, #ff5722);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 3.2rem;
+      box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    ul.headings {
+      list-style: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 30px auto;
+      text-align: left;
+      font-size: 1.3rem;
+    }
+
+    ul.headings li {
+      background: #ffffff;
+      margin: 12px 0;
+      padding: 14px 20px;
+      border-left: 6px solid #0288d1;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    ul.headings li:hover {
+      background: #f3f3f3;
+      transform: translateX(5px);
+    }
+
+    #section-content {
+      max-width: 700px;
+      margin: 20px auto;
+      text-align: left;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    ul.details {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.details li {
+      margin-bottom: 14px;
+    }
+
+    .profiles a {
+      display: inline-block;
+      margin: 10px;
+      color: #0288d1;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .profiles a:hover {
+      text-decoration: underline;
+    }
+
+    .button-group {
+      margin-top: 30px;
+    }
+
+    @keyframes moveButton {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    .button {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 30px;
+      background: #ff5722;
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      border: none;
+      animation: moveButton 2s infinite ease-in-out;
+      transition: background 0.3s;
+    }
+
+    .button:hover,
+    .button:active {
+      animation-play-state: paused;
+      background: green;
+    }
+
+    .button-text {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      padding: 20px;
+    }
+   
+  .details > ul > strong {
+    display: block;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Page 1 -->
+    <section id="page1" class="page active">
+      <h1><span class="highlight-name">E Y S N Keerthi</span></h1>
+      <p class="welcome">Welcome to My Personal Homepage🤝</p>
+      <img src="pic1.jpg" alt="E Y S N Keerthi" class="profile" />
+      <p class="intro-text">
+        Hello! I'm Keerthi, A passionate learner and tech enthusiast. Explore this site to learn more about my education, skills, certifications, and how to get in touch with me.<br>
+      
+      </p>
+      <div class="button-group">
+        <button class="button" onclick="showPage('page2')">
+          <span class="button-text">📄 Press this button to view my details →</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Page 2 -->
+    <section id="page2" class="page">
+      <h1>📘 Profile Sections</h1>
+      <ul class="headings">
+        <li onclick="showDetail('name')">👤 Name</li>
+        <li onclick="showDetail('education')">🎓 Education</li>
+        <li onclick="showDetail('skills')">💼 Skills & Certifications</li>
+        <li onclick="showDetail('profiles')">🌐 Profiles</li>
+        <li onclick="showDetail('contact')">📫 Contact</li>
+      </ul>
+      <div class="button-group">
+        <button class="button" onclick="showPage('page1')">← Back to Home</button>
+      </div>
+    </section>
+
+    <!-- Page 3 -->
+    <section id="page3" class="page">
+      <h1 id="section-title">Details</h1>
+      <div id="section-content"></div>
+      <div class="button-group">
+        <button class="button" onclick="showPage('page2')">← Back to Headings</button>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>&copy; 2025 E Y S N Keerthi. All rights reserved.</footer>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function showDetail(section) {
+      let title = '';
+      let content = '';
+
+      switch (section) {
+        case 'name':
+          title = 'Name';
+          content = `<p><center> <strong>Full Name:</strong> Eluri Yamini Sai Naga Keerthi<br>
+        <h2 style="background-color: #f0f0f0; text-align: center; padding: 10px;">
+  ABOUT ME
+</h2>
+
+Hello! I'm a third-year Computer Science and Engineering student at Sri Vasavi Engineering College ,Tadepalligudem, currently in my 5th semester.<br>
+ Interested in web and app development,Graphic designs and any opportunity that allows me to combine my technical and creative skills.</center> </p>`;
+          break;
+        case 'education':
+          title = 'Education';
+          content = `
+            <ul class="details"><center>
+               <li><strong style="color:green">B.Tech:</strong><br>Sri Vasavi Engineering Coleege,Tadepalligudem.<br>2023-2027.</li>
+              <li><strong style="color:green">Intermediate:</strong><br>Sree Maruthi Junior College ,Tanuku.<br>2021-2023.</li>
+              <li><strong style="color:green">SSC:</strong><br>Z P Boys High School,Tauku.<br>2016-2021.</li></center>
+
+            </ul>`;
+          break;
+        case 'skills':
+          title = 'Skills & Certifications';
+          content = `
+     <ul class="details">
+  <li>
+    <center><strong style="color:green">Skills:</strong></center>
+    <ul>
+      <li>💻 <b>Technical Skills:</b> Programming Languages like HTML,Java,python (basic)</li>
+      <li>🎨 <b>Design & Editing Skills:</b> Graphic Design, Video Editing</li>
+    </ul>
+  </li>
+
+  <li>
+    <center><strong style="color:green">Certifications:</strong></center>
+    <ul>
+      <li>Java Full Stack Developer Virtual Internship<br>
+          <i>From AICTE (Eduskills)</i></li>
+      <li>Zero Trust Cloud Security Virtual Internship<br>
+          <i>From AICTE (Eduskills)</i></li>
+    </ul>
+  </li>
+</ul>
+
+            </ul>`;
+
+          break;
+        case 'profiles':
+          title = 'Profiles';
+          content = `
+            <div class="profiles"><center>
+              
+              <a href="https://github.com/keerthi191" target="_blank">GitHub</a>
+              <a href="https://linkedin.com/in/Keerthi Eluri" target="_blank">LinkedIn</a>
+              <a href="https://learn.microsoft.com/en-us/users/ELURIYAMINISAINAGAKEERTHI/" target="_blank">Microsoft</a>
+              <a href="https://www.instagram.com/keerthi__yamu" target="_blank">Instagram</a></center>
+            </div>`;
+          break;
+        case 'contact':
+          title = 'Contact Information';
+          content = `
+            <ul class="details"><center>
+              <li><strong style="color:green">Email:</strong>keerthi.yamini15@gmail.com</li>
+              <li><strong style="color:green">OutLook:</strong>23A81A0519@sves.org.in</li>
+              <li><strong style="color:green">Address:</strong>Tanuku,Andhra Pradesh,India.</li>
+              </center>
+            </ul>`;
+          break;
+      }
+
+      document.getElementById('section-title').textContent = title;
+      document.getElementById('section-content').innerHTML = content;
+      showPage('page3');
+    }
+  </script>
+
+</body>
+</html>
