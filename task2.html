@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkillSphere Academy</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header, footer {
+      background: #1f1f1f;
+      text-align: center;
+      padding: 30px 20px;
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 2.8rem; margin-bottom: 8px; }
+    nav {
+      background: #2c2c2c;
+      flex-shrink: 0;
+    }
+    nav ul {
+      list-style: none;
+      display: flex; justify-content: center; flex-wrap: wrap;
+    }
+    nav ul li { margin: 5px 12px; }
+    nav ul li a {
+      color: #eee; text-decoration: none;
+      padding: 12px 16px; border-radius: 6px;
+      display: inline-block;
+    }
+    nav ul li a:hover,
+    nav ul li a.active { background-color: #3a3a3a; }
+
+    main {
+      flex-grow: 1;
+      max-width: 1100px;
+      margin: 25px auto 40px;
+      padding: 0 20px;
+    }
+    section { display: none; }
+    section.active { display: block; }
+
+    /* HOME */
+    .home-banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      align-items: center;
+    }
+    .home-text h2 {
+      font-size: 2.5rem; margin-bottom: 18px; color: #ffa726;
+    }
+    .home-text p {
+      font-size: 1.2rem; margin-bottom: 25px; color: #ccc;
+    }
+    .home-text button {
+      background: #ffa726; border:none; padding:15px 30px;
+      border-radius:8px;color:#121212;font-size:1.1rem;
+      cursor:pointer; font-weight:600;
+    }
+    .home-image img {
+      width: 100%; max-height: 360px; object-fit: cover;
+      border-radius: 12px;
+    }
+
+    /* COURSES */
+    #courses h2 {
+      font-size: 2.2rem; color: #ffa726;
+      margin-bottom: 15px; text-align: center;
+    }
+    #courseSearch {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 20px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #1e1e1e;
+      color: #eee;
+    }
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+    .course-card {
+      background: #1e1e1e;
+      border-radius: 50%;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .course-card:hover {
+      transform: scale(1.1);
+    }
+    .course-card .icon {
+      font-size: 2rem;
+    }
+    .course-card h3 {
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* REGISTER */
+    form {
+      max-width: 400px; margin: auto; background: #1e1e1e;
+      padding: 30px; border-radius: 12px;
+    }
+    form input, form select, form button {
+      width: 100%; padding: 12px; margin-bottom: 15px;
+      border-radius: 6px; border: 1px solid #444;
+      font-size: 1rem;
+    }
+    form button {
+      background: #ffa726; border: none; color: #121212;
+      font-weight: bold;
+    }
+
+    #successMsg, #warningMsg {
+      max-width: 400px;
+      margin: 10px auto;
+      padding: 12px;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    #successMsg {
+      background: #2e7d32; color: #c8e6c9;
+    }
+    #warningMsg {
+      background: #ffc107; color: #000;
+    }
+
+    /* DASHBOARD */
+    #dashboard h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffa726;
+    }
+    #dashboardData {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    #dashboardData ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #dashboardData li {
+      padding: 8px;
+      border-bottom: 1px solid #333;
+    }
+    .remove-btn {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      margin-left: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    /* CONTACT */
+    #contact p {
+      text-align: center;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🎓 SkillSphere Academy</h1>
+    <p>Nurture your potential. Upskill with confidence.</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#" class="active" data-target="home">🏠 Home</a></li>
+      <li><a href="#" data-target="courses">📚 Courses</a></li>
+      <li><a href="#" data-target="register">📝 Register</a></li>
+      <li><a href="#" data-target="dashboard">📊 Dashboard</a></li>
+      <li><a href="#" data-target="contact">📞 Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="active">
+      <div class="home-banner">
+        <div class="home-text">
+          <h2>Welcome to SkillSphere 🌟</h2>
+          <p>Learn tech skills, anytime and anywhere. Your future begins here.</p>
+          <button id="exploreBtn">Explore Courses</button>
+        </div>
+        <div class="home-image">
+          <img src="https://img.freepik.com/free-vector/online-courses-tutorials_52683-37860.jpg" alt="Online Courses" />
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES -->
+    <section id="courses">
+      <h2>Our Courses</h2>
+      <input type="text" id="courseSearch" placeholder="🔍 Search courses..." />
+      <div class="course-grid" id="courseGrid"></div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="register">
+      <h2>Register</h2>
+      <form id="regForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <select id="courseSelect" required>
+          <option value="">Select Course</option>
+        </select>
+        <button type="submit">Register</button>
+      </form>
+      <div id="successMsg" style="display:none;">✅ Registration successful!</div>
+      <div id="warningMsg" style="display:none;">⚠️ Already registered for this course.</div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+      <h2>Registration Dashboard</h2>
+      <div id="dashboardData"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <p>📧 Email: support@skillsphere.academy</p>
+      <p>📱 Phone: +123‑456‑7890</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 SkillSphere Academy</p>
+  </footer>
+
+  <script>
+    const courseNames = [
+      "C Programming", "C++ Programming", "Java Programming", "Python Programming",
+      "HTML & CSS", "JavaScript", "ReactJS", "Node.js", "MongoDB", "MySQL",
+      "Machine Learning", "AI Basics", "Cloud Computing", "Cybersecurity",
+      "Full Stack Development", "Angular", "Vue.js", "TypeScript", "DevOps", "UI/UX Design"
+    ];
+    const courseIcons = ["🅲", "➕➕", "☕", "🐍", "🌐", "📜", "⚛️", "🟢", "🍃", "💾", "🤖", "🧠", "☁️", "🛡️", "🖥️", "📐", "🧩", "✍️", "🚀", "🎨"];
+
+    const courseGrid = document.getElementById("courseGrid");
+    const courseSelect = document.getElementById("courseSelect");
+
+    function loadCourses(filter = "") {
+      courseGrid.innerHTML = "";
+      courseNames.forEach((course, i) => {
+        if (!course.toLowerCase().includes(filter.toLowerCase())) return;
+
+        const card = document.createElement("div");
+        card.className = "course-card";
+        card.innerHTML = `<div class="icon">${courseIcons[i]}</div><h3>${course}</h3>`;
+        card.addEventListener("click", () => {
+          showSection("register");
+          courseSelect.value = course;
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        courseGrid.appendChild(card);
+      });
+    }
+
+    courseNames.forEach((course) => {
+      const opt = document.createElement("option");
+      opt.value = course;
+      opt.textContent = course;
+      courseSelect.appendChild(opt);
+    });
+
+    document.getElementById("courseSearch").addEventListener("input", (e) => {
+      loadCourses(e.target.value);
+    });
+
+    function showSection(id) {
+      document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      if (id === "dashboard") loadDashboard();
+    }
+
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const id = link.dataset.target;
+        showSection(id);
+        document.querySelectorAll("nav a").forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+
+    document.getElementById("exploreBtn").onclick = () => {
+      showSection("courses");
+    };
+
+    document.getElementById("regForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const course = courseSelect.value;
+
+      let regs = JSON.parse(localStorage.getItem("registrations") || "[]");
+      const exists = regs.find(r => r.email === email && r.course === course);
+
+      if (exists) {
+        document.getElementById("successMsg").style.display = "none";
+        document.getElementById("warningMsg").style.display = "block";
+      } else {
+        regs.push({ name, email, course });
+        localStorage.setItem("registrations", JSON.stringify(regs));
+        document.getElementById("successMsg").style.display = "block";
+        document.getElementById("warningMsg").style.display = "none";
+        this.reset();
+      }
+    });
+
+    function loadDashboard() {
+      const div = document.getElementById("dashboardData");
+      div.innerHTML = "";
+      const regs = JSON.parse(localStorage.getItem("registrations") || "[]");
+
+      if (regs.length === 0) {
+        div.innerHTML = "<p>No registrations yet.</p>";
+        return;
+      }
+
+      const grouped = {};
+      regs.forEach(r => {
+        if (!grouped[r.course]) grouped[r.course] = [];
+        grouped[r.course].push(r);
+      });
+
+      for (let course in grouped) {
+        let html = `<h3>${course}</h3><ul>`;
+        grouped[course].forEach(r => {
+          html += `<li>${r.name} (${r.email}) 
+            <button class="remove-btn" onclick="removeRegistration('${r.email}', '${course}')">Remove</button>
+          </li>`;
+        });
+        html += "</ul>";
+        div.innerHTML += html;
+      }
+    }
+
+    function removeRegistration(email, course) {
+      let regs = JSON.parse(localStorage.getItem("registrations") || "[]");
+      regs = regs.filter(r => !(r.email === email && r.course === course));
+      localStorage.setItem("registrations", JSON.stringify(regs));
+      loadDashboard();
+    }
+
+    // Load initial courses
+    loadCourses();
+  </script>
+</body>
+</html>
