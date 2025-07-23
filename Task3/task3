@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovieFlix - Netflix Theme</title>
+  <style>
+    * { box-sizing: border-box; }
+    body, html { margin:0; padding:0; font-family:Arial,sans-serif; background:#111; color:white; scroll-behavior: smooth; }
+
+    #login-page {
+      background: url('netflix.jpg') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-box {
+      background: rgba(0,0,0,0.75);
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+      width: 320px;
+      color: white;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #222;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: red;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #main-page {
+      display: none;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    header {
+  background: black;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: center; /* ✅ Center the entire header content */
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.logo {
+  height: 40px;
+  position: absolute;
+  left: 30px; /* ✅ Keep the logo on the left */
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px; /* ✅ Even spacing between links */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+    #logout-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: red;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+      display: none;
+    }
+
+    .profile {
+      padding: 40px 30px;
+      background: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 25px;
+      text-align: center;
+    }
+
+    .profile img {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+    }
+
+    .profile h3 { font-size: 28px; margin: 0; }
+
+    .profile p { font-size: 18px; margin: 0; color: #ccc; }
+
+    .category {
+      margin: 20px 30px;
+    }
+
+    .category h2 {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .row {
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
+      padding-bottom: 12px;
+    }
+
+    .item {
+      position: relative;
+      flex: 0 0 auto;
+      width: 220px;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform .3s ease;
+    }
+
+    .item:hover { transform: scale(1.08); }
+
+    .item img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      color: white;
+      text-shadow: 0 0 8px black;
+      pointer-events: none;
+    }
+
+    #search-bar {
+      margin: 20px 30px;
+      width: calc(100% - 60px);
+      max-width: 500px;
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 20px;
+      border: none;
+      background: #333;
+      color: white;
+    }
+
+    #about-netflix {
+      background: #222;
+      padding: 30px;
+      margin-top: 50px;
+      font-size: 16px;
+      color: #ccc;
+      width: 100%;
+    }
+
+    @media(max-width:600px) {
+      .item { width: 150px; }
+      .item img { height: 240px; }
+      #logout-btn { padding: 8px 12px; font-size: 14px; }
+      #search-bar, .category { margin: 20px 20px; width: calc(100% - 40px); }
+      #about-netflix { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="login-page">
+  <div class="login-box">
+    <h2>Login to MyNetflix</h2>
+    <input type="text" id="username" placeholder="Username (use @gmail.com)" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="main-page">
+  <button id="logout-btn" onclick="logout()">Logout</button>
+  
+  <header>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg" class="logo" alt="Netflix Logo" />
+  <nav>
+    <a href="#movies">Movies</a>
+    <a href="#shows">Shows</a>
+    <a href="#cartoons">Cartoons</a>
+   
+  </nav>
+</header>
+
+
+  <div class="profile">
+    <img id="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg" alt="Netflix Profile" />
+    <div>
+      <h3 id="user-name">Welcome, User</h3>
+      <p>Enjoy your favorites in one place.</p>
+    </div>
+  </div>
+
+  <center>
+    <input type="text" id="search-bar" placeholder="Search titles..." oninput="filterContent()" />
+    <div id="content"></div>
+  </center>
+
+  <div id="about-netflix">
+    <h2>About Netflix</h2>
+    <p>
+      Netflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.
+      You can watch as much as you want, whenever you want, without a single commercial – all for one low monthly price. There's always something new to discover, and new TV shows and movies are added every week!
+    </p>
+  </div>
+</div>
+
+<script>
+  const data = {
+  Movies: [
+    // ✅ Malayalam
+    { title:"Hridayam (Malayalam)", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTutTkMuyd95WvE2Q1Ry-JCIFIR1X7IY9U9HYqptiS7_czIg5LbtD-SwGfJ7PSpVhp3qoQ&usqp=CAU", videoId:"C2FU7fj0IQc", language:"Malayalam" },
+    { title:"Manjummel Boys (Malayalam)", img:"https://upload.wikimedia.org/wikipedia/en/a/ac/Manjummel_Boys_%28soundtrack%29.jpg", videoId:"rqBuKT_8dMY", language:"Malayalam" },
+
+    // ✅ Telugu
+    { title:"Padi Padi Leche Manasu (Telugu)", img:"https://tse4.mm.bing.net/th/id/OIP.UEpyPfQt-af0RHltAVLu1AHaJ4", videoId:"O7oOl5oyTQg", language:"Telugu" },
+    { title:"Kubera (Telugu)", img:"https://images.filmibeat.com/ph-big/2024/11/kubera-release-date-cast-crew-plot-more-about-dhanushs-upcoming-gritty-thriller1731736848_1.jpg", videoId:"ipfJEG5HAXs", language:"Telugu" },
+
+    // ✅ English
+    { title:"Jurassic World (English)", img:"https://m.media-amazon.com/images/M/MV5BMDE1N2EzMjAtMDY1My00YWE5LWEyYjYtYmE3YjZjNzQwNDhmXkEyXkFqcGc@._V1_.jpg", videoId:"jan5CFWs9ic", language:"English" },
+    { title:"Squid Game (English)", img:"https://cdn.movieguide.org/wp-content/uploads/2025/06/squid-game.jpg", videoId:"oqxAJKy0ii4", language:"English" },
+
+    // ✅ Hindi
+    { title:"83 (Hindi)", img:"https://www.thestatesman.com/wp-content/uploads/2021/12/83.jpg", videoId:"UEReI2rn7GU", language:"Hindi" },
+    { title:"Dhoom Dhaam (Hindi)", img:"https://static.toiimg.com/photo/118122599.cms", videoId:"6RT3cB3T74w", language:"Hindi" },
+
+    // ✅ Tamil
+    { title:"Dragon (Tamil)", img:"https://i.ytimg.com/vi/qb2Z7MJ6of0/maxresdefault.jpg", videoId:"I4u5BovrCl8", language:"Tamil" },
+    { title:"Raayan (Tamil)", img:"https://images.filmibeat.com/img/popcorn/movie_posters/raayan-20240611123619-21544.jpg", videoId:"qQJJWhh-XRo", language:"Tamil" }
+  ],
+
+  Shows: [
+    { title:"BigBoss", img:"https://m.media-amazon.com/images/M/MV5BMmI3YjQyM2EtZjYzMS00ZWI3LWI2NmUtNTE3NWE4ZTQ4YmE0XkEyXkFqcGc@._V1_.jpg", videoId:"EN0LppWerZQ" },
+    { title:"Dance +", img:"https://www.india-forums.com/tellybuzz/images/uploads/Dance_Plus.jpg", videoId:"J5odLI1vae4" },
+    { title:"Suma Adda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Suma_Adda.jpg/250px-Suma_Adda.jpg", videoId:"tBV1e_xxnEw" },
+    { title:"Jabardasth", img:"https://images.news18.com/ibnlive/uploads/2022/03/untitled-design-9-20-16480410864x3.png", videoId:"3wZI0_jPffs" },
+    { title:"Super Singer", img:"https://admin.indiantelevision.com/sites/default/files/images/tv-images/2016/11/23/super-dance-800x800.jpg", videoId:"bEfNZPWUfo0" },
+    // ✅ Added 4 new shows
+    { title:"Cooku with Comali", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8o5V0rLa_B_1_zzhnf1Et-s8vL2c2aGXuqA&s", videoId:"Hpo5MePAJOI" },
+    { title:"Comedy Nights", img:"https://static.vecteezy.com/system/resources/previews/002/413/503/non_2x/comedy-night-neon-signs-style-text-vector.jpg", videoId:"sPa4KC0ZqQE" },
+    { title:"Star Singer", img:"https://img-cdn.publive.online/fit-in/1280x960/filters:format(webp)/indian-express-malayalam/media/media_files/EFS4Hd04SAR3aZOmRA45.jpg", videoId:"hGBecG-0I04" },
+    { title:"The Kapil Sharma Show", img:"https://m.media-amazon.com/images/M/MV5BZDIxNGVkNjgtMThhMC00YTgzLTgyYmEtODk3ZWUzY2VhZTc5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", videoId:"T4NU_FXU5ro" },
+    { title:"Star Maa Parivaaram", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzCFr4GfgnHEGZ23bJ5O9u4DB3o3ryWSBlZ_flevKZ3I1vdnmvP02I5ShzaqvfhoWjmwU&usqp=CAU", videoId:"8Gg9XLGhexw" }
+
+  ],
+
+  Cartoons: [
+    { title:"The Lion King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT37Jf3eJ4jQ0z3nbGSBqHMXMQAng6s-gnmxNl9I_VS5nsUYoQUoWn6Ca7OOLTowAJ8d0M&usqp=CAU", videoId:"7TavVZMewpY" },
+    { title:"Tom and Jerry", img:"https://static1.srcdn.com/wordpress/wp-content/uploads/2024/08/the-tom-and-jerry-show-1975-poster.jpg", videoId:"kP9TfCWaQT4" },
+    { title:"SpongeBob", img:"https://m.media-amazon.com/images/M/MV5BYjJmMjBkZjMtZThiZS00Nzk3LWJlN2UtYmE5ZjkyNjJiZjgxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", videoId:"nbdjPaHevVE" },
+    { title:"Doreamon", img:"https://i.pinimg.com/736x/ef/2b/04/ef2b045bce82875d5cef98aa835b5548.jpg", videoId:"XM2uPnCKcsE" },
+    { title:"Shinchan", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvcJ5RNcpX4ZLmdB-503e5jMkQhExDakKTXjWiLgFtM9u8mxRqGQUGnCPy5EaPJLTarjs&usqp=CAU", videoId:"qV0PIc5rjPA" },
+    { title:"Dora", img:"https://m.media-amazon.com/images/M/MV5BZWFiZmM2ZGQtZGE0OC00ZmI4LWI0NzAtM2QzZDg5ODdiYWQ5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", videoId:"SkyO_FHhbPw" },
+    // ✅ Added 4 new cartoons
+    { title:"Chhota Bheem", img:"https://m.media-amazon.com/images/M/MV5BMjFhNzU4NmItOTczMC00YTMyLTkzZjgtNTJjZDA0YmRkZTc4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", videoId:"4j__b9OT8U4" },
+    { title:"Motu Patlu", img:"https://images.justwatch.com/poster/46228812/s718/season-1.jpg", videoId:"QGetjzV9sgY" },
+    { title:"Pokemon", img:"https://m.media-amazon.com/images/I/51gxOWGclKL._UF1000,1000_QL80_.jpg", videoId:"eNML51GuBew" },
+    { title:"Ben 10", img:"https://m.media-amazon.com/images/M/MV5BYWVjODZjNDgtYjk4ZS00OTg5LTg5NDQtZDMxZDQ4ZmM5MGJmXkEyXkFqcGc@._V1_.jpg", videoId:"opR_2-IBw8E" }
+  ]
+};
+
+
+  function displayContent() {
+    const container = document.getElementById('content');
+    container.innerHTML = '';
+
+    for (const category in data) {
+      const catDiv = document.createElement('div');
+      catDiv.classList.add('category');
+      catDiv.id = category.toLowerCase();
+
+      const h2 = document.createElement('h2');
+      h2.textContent = category;
+      catDiv.appendChild(h2);
+
+      const row = document.createElement('div');
+      row.classList.add('row');
+
+      data[category].forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('item');
+        itemDiv.title = item.title;
+        itemDiv.dataset.title = item.title.toLowerCase();
+
+        const img = document.createElement('img');
+        img.src = item.img;
+        img.alt = item.title;
+
+        const playOverlay = document.createElement('div');
+        playOverlay.classList.add('play-overlay');
+        playOverlay.innerHTML = '&#9658;';
+
+        itemDiv.appendChild(img);
+        itemDiv.appendChild(playOverlay);
+
+        itemDiv.onclick = () => playVideo(item.videoId);
+
+        row.appendChild(itemDiv);
+      });
+
+      catDiv.appendChild(row);
+      container.appendChild(catDiv);
+    }
+  }
+
+  function playVideo(videoId) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.allowFullscreen = true;
+    iframe.style.position = 'fixed';
+    iframe.style.top = '50%';
+    iframe.style.left = '50%';
+    iframe.style.transform = 'translate(-50%, -50%)';
+    iframe.style.width = '80vw';
+    iframe.style.height = '45vw';
+    iframe.style.zIndex = '9999';
+    iframe.style.border = 'none';
+
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    overlay.style.zIndex = '9998';
+
+    overlay.onclick = () => {
+      document.body.removeChild(iframe);
+      document.body.removeChild(overlay);
+    };
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(iframe);
+  }
+
+  function filterContent() {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    document.querySelectorAll('.item').forEach(item => {
+      item.style.display = item.dataset.title.includes(searchTerm) ? '' : 'none';
+    });
+  }
+
+  function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!username || !username.includes('@gmail.com') || password.length < 4) {
+      alert('Please enter a valid Gmail address and password.');
+      return;
+    }
+
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('main-page').style.display = 'block';
+    document.getElementById('user-name').textContent = `Welcome, ${username.split('@')[0]}`;
+    document.getElementById('logout-btn').style.display = 'block';
+    displayContent();
+  }
+
+  function logout() {
+    document.getElementById('login-page').style.display = 'flex';
+    document.getElementById('main-page').style.display = 'none';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('search-bar').value = '';
+    document.getElementById('logout-btn').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
